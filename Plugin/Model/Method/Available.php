@@ -45,10 +45,10 @@ class Available
     public function afterGetAvailableMethods($subject, $result)
     {
         $codMethod = $this->config->getCodMethod();
-        if ($codMethod && $this->checkCondition()) {
+        if ($codMethod && !$this->checkCondition()) {
             foreach ($result as $key => $_result) {
                 if ($_result->getCode() == $codMethod) {
-                    $isAllowed = false; // your logic here
+                    $isAllowed = false;
                     if (!$isAllowed) {
                         unset($result[$key]);
                     }
