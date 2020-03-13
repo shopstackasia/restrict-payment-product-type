@@ -59,7 +59,7 @@ class Available
             $productAttributeCode = $this->config->getProductAttribute();
             $codRestrictOptions = $this->config->getCodRestrictOptions();
             if ($productAttributeCode && $codRestrictOptions) {
-                $allOptions = $this->getQuote()->getAllVisibleItems();
+                $allOptions = $this->getQuote()->getAllItems();
                 $allowCod = 0;
                 $numberProduct = 0;
                 foreach ($allOptions as $item) {
