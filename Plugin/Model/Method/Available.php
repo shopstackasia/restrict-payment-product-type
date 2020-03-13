@@ -37,13 +37,15 @@ class Available
 
     public function afterGetAvailableMethods($subject, $result)
     {
-        $codMethod = $this->config->getCodMethod();
-        if ($codMethod && !$this->checkCondition()) {
-            foreach ($result as $key => $_result) {
-                if ($_result->getCode() == $codMethod) {
-                    $isAllowed = false;
-                    if (!$isAllowed) {
-                        unset($result[$key]);
+        if ($this->config->enabledModule()) {
+            $codMethod = $this->config->getCodMethod();
+            if ($codMethod && !$this->checkCondition()) {
+                foreach ($result as $key => $_result) {
+                    if ($_result->getCode() == $codMethod) {
+                        $isAllowed = false;
+                        if (!$isAllowed) {
+                            unset($result[$key]);
+                        }
                     }
                 }
             }
