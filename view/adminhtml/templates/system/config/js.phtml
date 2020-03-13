@@ -1,0 +1,147 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php
+$helper = $this->helper(\Central\PaymentRestrictionProductType\Helper\Config::class);
+$codOptions = $helper->getCodRestrictOptions();
+$dataSelectedOption = explode(',', $codOptions);
+?>
+<script>
+    require([
+        'prototype'
+    ], function () {
+
+        var originModel = Class.create();
+        originModel.prototype = {
+            initialize: function () {
+                this.reload = false;
+                this.loader = new varienLoader(true);
+                this.restrictOptionUrl = "<?= $block->escapeJs($block->escapeUrl($block->getUrl('codrestrict/json/attributeOptions'))) ?>";
+
+                this.bindAttributeRestrictOption();
+            },
+            bindAttributeRestrictOption: function (parentId) {
+                var self = this;
+                if (parentId) {
+                    var restrictAttributes = $$('#' + parentId + ' .restrictattribute');
+                } else {
+                    var restrictAttributes = $$('.restrictattribute');
+                }
+                var codRestrictElement = $$('.codrestrict');
+                for (var i = 0; i < restrictAttributes.size(); i++) {
+                    Event.observe(restrictAttributes[i], 'change', this.reloadRestrictField.bind(this));
+
+                    var codRestrict = document.getElementById(codRestrictElement[i].id)
+                    if (codRestrict.length) {
+                        self.removeOptions(codRestrict);
+                    }
+                    this.initCodRestrictField(restrictAttributes[i]);
+                }
+            },
+
+            removeOptions: function (selectElement) {
+                var i, L = selectElement.options.length - 1;
+                for (i = L; i >= 0; i--) {
+                    selectElement.remove(i);
+                }
+            },
+
+            reloadRestrictField: function (event) {
+                this.reload = true;
+                var self = this;
+                var attributeElement = Event.element(event);
+                if (attributeElement && attributeElement.id) {
+                    var codRestrictElement = $$('.codrestrict');
+                    if (codRestrictElement) {
+                        this.codRestrictElement = codRestrictElement;
+                        var codRestrict = document.getElementById(codRestrictElement[0].id);
+                        if (codRestrict.length) {
+                            self.removeOptions(codRestrict);
+                        }
+                        if (attributeElement.value.length) {
+                            var url = this.restrictOptionUrl + 'code/' + attributeElement.value;
+                            this.loader.load(url, {}, this.refreshCodRestrictField.bind(this));
+                        } else {
+                            this.clearRegionField(this.regionElement.disabled);
+                        }
+                    }
+                }
+            },
+            refreshCodRestrictField: function (serverResponse) {
+                if (serverResponse) {
+                    var data = eval('(' + serverResponse + ')');
+                    var codRestrictElement = this.codRestrictElement[0];
+                    var disabled = this.codRestrictElement.disabled;
+
+                    if (data.length) {
+                        for (var i in data) {
+                            if (data[i].label) {
+                                var dataValue = data[i].value;
+                                codRestrictElement.append(new Option(data[i].label, dataValue, false, this.checkDataSelected(dataValue)));
+                            }
+                        }
+
+                    } else if (this.reload) {
+                        this.clearRegionField(disabled);
+                    }
+                }
+            },
+            clearRegionField: function (disabled) {
+                var text = document.createElement('input');
+                text.setAttribute('type', 'text');
+                text.setAttribute('name', this.codRestrictElement.name);
+                text.setAttribute('title', this.codRestrictElement.title);
+                text.setAttribute('id', this.codRestrictElement.id);
+                text.setAttribute('class', 'input-text');
+                if (disabled) {
+                    text.setAttribute('disabled', '');
+                }
+                var parentNode = this.codRestrictElement.parentNode;
+                var codRestrictElementId = this.codRestrictElement.id;
+                parentNode.innerHTML = text.outerHTML;
+                this.codRestrictElement = $(codRestrictElementId);
+            },
+
+            initCodRestrictField: function (attributeElement) {
+                this.reload = true;
+                if (attributeElement && attributeElement.id) {
+                    var codRestrictElement = $$('.codrestrict');
+                    if (codRestrictElement) {
+                        this.codRestrictElement = codRestrictElement;
+                        if (attributeElement.value.length) {
+                            var url = this.restrictOptionUrl + 'code/' + attributeElement.value;
+                            this.loader.load(url, {}, this.refreshCodRestrictField.bind(this));
+                        } else {
+                            this.clearRegionField(this.regionElement.disabled);
+                        }
+                    }
+                }
+            },
+
+            checkDataSelected: function (value) {
+                var data = <?php echo json_encode($dataSelectedOption)?>;
+                for (var i = 0; i < data.length; i++) {
+                    if (value == data[i]) return true;
+                }
+                return false;
+            }
+        }
+
+        function showHint() {
+            $$('.hint').each(function (element) {
+                Event.observe(element, 'mouseover', function () {
+                    element.down().show()
+                });
+                Event.observe(element, 'mouseout', function () {
+                    element.down().hide()
+                });
+            });
+        }
+
+        Event.observe(window, 'load', showHint);
+        originModel = new originModel();
+    });
+</script>

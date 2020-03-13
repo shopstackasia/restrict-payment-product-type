@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <payment_restriction_product_type>
+            <general>
+                <enabled>1</enabled>
+            </general>
+        </payment_restriction_product_type>
+    </default>
+</config>

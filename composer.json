@@ -1,0 +1,22 @@
+{
+  "name": "central/module-payment-restriction-product-type",
+  "description": "",
+  "type": "magento2-module",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Thomas",
+      "email": "thomas@shopstack.asia"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "Central\\PaymentRestrictionProductType\\": ""
+    },
+    "files": [
+      "registration.php"
+    ]
+  }
+}

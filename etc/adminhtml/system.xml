@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="central" sortOrder="101" translate="label">
+            <label>Central</label>
+        </tab>
+        <section id="payment_restriction_product_type" showInDefault="1" showInStore="1" showInWebsite="1"
+                 sortOrder="10" translate="label">
+            <label>COD Restriction</label>
+            <tab>central</tab>
+            <resource>Central_PaymentRestrictionProductType::config_central_payment_restriction_product_type</resource>
+            <group id="general" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+                <label>General</label>
+                <field id="enabled" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label"
+                       type="select">
+                    <label>Enabled</label>
+                    <comment/>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="payment_restriction" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20"
+                   translate="label">
+                <label>Conditions Restriction Payment</label>
+                <field id="product_attribute" translate="label" type="select" sortOrder="5" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Product Attribute</label>
+                    <source_model>Central\PaymentRestrictionProductType\Model\Config\Source\ProductAttributes
+                    </source_model>
+                    <frontend_class>restrictattribute</frontend_class>
+                </field>
+                <field id="restrict_value" translate="label" type="multiselect" sortOrder="30" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Restriction Options</label>
+                    <frontend_class>codrestrict</frontend_class>
+                </field>
+
+                <field id="payment" type="select" translate="label" sortOrder="50" showInDefault="1" showInWebsite="1"
+                       showInStore="0">
+                    <label>COD Payment</label>
+                    <source_model>Central\PaymentRestrictionProductType\Model\Config\Source\PaymentMethod</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
