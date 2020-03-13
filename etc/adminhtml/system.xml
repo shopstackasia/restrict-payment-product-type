@@ -23,7 +23,7 @@
                 </field>
                 <field id="restrict_value" translate="label" type="multiselect" sortOrder="30" showInDefault="1"
                        showInWebsite="1" showInStore="1">
-                    <label>Restriction Options</label>
+                    <label>Allowed Options</label>
                     <frontend_class>codrestrict</frontend_class>
                 </field>
             </group>
