@@ -7,7 +7,7 @@ use Magento\Store\Model\ScopeInterface;
 
 class Config extends AbstractHelper
 {
-    const CONFIG_ENABLE_MODULE = 'payment_restriction_product_type/general/enabled';
+    const CONFIG_ENABLE_MODULE = 'payment_restriction_product_type/payment_restriction/enabled';
     const CONFIG_PAYMENT_RESTRICTION = 'payment_restriction_product_type/payment_restriction/product_attribute';
     const CONFIG_PAYMENT_COD_RESTRICTION = 'payment_restriction_product_type/payment_restriction/restrict_value';
     const CONFIG_PAYMENT_COD_METHOD = 'payment_restriction_product_type/payment_restriction/payment';
@@ -41,6 +41,6 @@ class Config extends AbstractHelper
 
     public function getCodMethod()
     {
-        return $this->getConfig(self::CONFIG_PAYMENT_COD_METHOD);
+        return \Magento\OfflinePayments\Model\Cashondelivery::PAYMENT_METHOD_CASHONDELIVERY_CODE;
     }
 }

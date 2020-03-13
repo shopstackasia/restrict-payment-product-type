@@ -7,9 +7,7 @@
                 <resource id="Magento_Backend::stores">
                     <resource id="Magento_Backend::stores_settings">
                         <resource id="Magento_Config::config">
-                            <resource
-                                    id="Central_PaymentRestrictionProductType::config_central_payment_restriction_product_type"
-                                    title="Payment Restriction Product Type"/>
+                            <resource id="Central_PaymentRestrictionProductType::config_central_payment_restriction_product_type" title="Payment Restriction Product Type"/>
                         </resource>
                     </resource>
                 </resource>
