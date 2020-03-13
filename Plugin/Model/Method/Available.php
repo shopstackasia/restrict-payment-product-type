@@ -61,7 +61,12 @@ class Available
             if ($productAttributeCode && $codRestrictOptions) {
                 $allOptions = $this->getQuote()->getAllVisibleItems();
                 $allowCod = 0;
+                $numberProduct = 0;
                 foreach ($allOptions as $item) {
+                    if ($item->getChildren()) {
+                        continue;
+                    }
+                    $numberProduct++;
                     $product = $item->getProduct();
                     $optionValue = $product->getResource()
                         ->getAttributeRawValue(
@@ -75,7 +80,7 @@ class Available
                     }
                 }
 
-                return count($allOptions) == $allowCod;
+                return count($numberProduct) == $allowCod;
             }
         }
 
