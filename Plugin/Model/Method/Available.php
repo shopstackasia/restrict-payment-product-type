@@ -3,7 +3,6 @@
 namespace Central\PaymentRestrictionProductType\Plugin\Model\Method;
 
 use Central\PaymentRestrictionProductType\Helper\Config;
-use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Store\Model\StoreManagerInterface;
 
@@ -20,20 +19,14 @@ class Available
     private $checkoutSession;
 
     /**
-     * @var ProductRepositoryInterface
-     */
-    protected $productRepository;
-
-    /**
      * @var StoreManagerInterface
      */
     protected $storeManager;
 
-    public function __construct(Config $config, CheckoutSession $session, ProductRepositoryInterface $productRepository, StoreManagerInterface $storeManager)
+    public function __construct(Config $config, CheckoutSession $session, StoreManagerInterface $storeManager)
     {
         $this->config = $config;
         $this->checkoutSession = $session;
-        $this->productRepository = $productRepository;
         $this->storeManager = $storeManager;
     }
 
