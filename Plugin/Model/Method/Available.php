@@ -80,7 +80,7 @@ class Available
                     }
                 }
 
-                return count($numberProduct) == $allowCod;
+                return $numberProduct == $allowCod;
             }
         }
 
