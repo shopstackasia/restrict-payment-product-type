@@ -63,7 +63,7 @@ class Available
                 $allowCod = 0;
                 $numberProduct = 0;
                 foreach ($allOptions as $item) {
-                    if ($item->getChildren()) {
+                    if ($item->getHasChildren()) {
                         continue;
                     }
                     $numberProduct++;
