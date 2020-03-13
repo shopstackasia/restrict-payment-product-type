@@ -5,6 +5,7 @@ namespace Central\PaymentRestrictionProductType\Plugin\Model\Method;
 use Central\PaymentRestrictionProductType\Helper\Config;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Checkout\Model\Session as CheckoutSession;
+use Magento\Store\Model\StoreManagerInterface;
 
 class Available
 {
@@ -23,11 +24,17 @@ class Available
      */
     protected $productRepository;
 
-    public function __construct(Config $config, CheckoutSession $session, ProductRepositoryInterface $productRepository)
+    /**
+     * @var StoreManagerInterface
+     */
+    protected $storeManager;
+
+    public function __construct(Config $config, CheckoutSession $session, ProductRepositoryInterface $productRepository, StoreManagerInterface $storeManager)
     {
         $this->config = $config;
         $this->checkoutSession = $session;
         $this->productRepository = $productRepository;
+        $this->storeManager = $storeManager;
     }
 
     private function getQuote()
@@ -60,10 +67,15 @@ class Available
                 $allOptions = $this->getQuote()->getAllVisibleItems();
                 $allowCod = 0;
                 foreach ($allOptions as $item) {
-                    $product = $this->productRepository->get($item->getSku());
-                    $productOptionValue = $product->getData($productAttributeCode);
+                    $product = $item->getProduct();
+                    $optionValue = $product->getResource()
+                        ->getAttributeRawValue(
+                            $product->getId(),
+                            $productAttributeCode,
+                            $this->storeManager->getStore()->getId()
+                        );
                     $restrictOptionsData = explode(',', $codRestrictOptions);
-                    if (in_array($productOptionValue, $restrictOptionsData)) {
+                    if (in_array($optionValue, $restrictOptionsData)) {
                         $allowCod++;
                     }
                 }
